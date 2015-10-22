@@ -1,0 +1,21 @@
+{
+  "name": "mchain/vacancy-parser",
+  "description": "Parsing extension to load vacancies from external resources.",
+  "type": "yii2-extension",
+  "license": "BSD 3-Clause",
+  "authors": [
+    {
+      "name": "Yuriy Muhin",
+      "email": "gmchain@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "mchain\\vacancyparser\\": ""
+    }
+  },
+  "require": {
+    "sunra/php-simple-html-dom-parser": "v1.5.0"
+  }
+}
