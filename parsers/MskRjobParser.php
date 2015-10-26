@@ -149,7 +149,7 @@ class MskRjobParser extends AbstractVacancyParser
 
         $description = [];
         /** @var \simple_html_dom_node[] $chapters */
-        $chapters = $dom->find('.employer__content-list p');
+        $chapters = $dom->find('.employer__content-list p, .employer__content-list ul li');
         foreach ($chapters as $chapter) {
             if (empty($chapter->attr['id'])) {
                 $description[] = html_entity_decode(ucfirst(trim($chapter->text())));

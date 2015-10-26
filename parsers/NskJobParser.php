@@ -254,7 +254,7 @@ class NskJobParser extends AbstractVacancyParser
      */
     private function getScheduleCode($schedule)
     {
-        switch (mb_strtolower($schedule)) {
+        switch (mb_strtolower($schedule, 'utf-8')) {
             case 'полный день':
                 return ScheduleCodes::SCHEDULE_FULL_TIME;
             case 'сменный график':
@@ -271,7 +271,7 @@ class NskJobParser extends AbstractVacancyParser
      */
     private function getJobTypeCode($jobType)
     {
-        switch (mb_strtolower($jobType)) {
+        switch (mb_strtolower($jobType, 'utf-8')) {
             case 'работа на территории работодателя':
                 return JobTypeCodes::JOB_TYPE_OFFLINE;
             case 'на дому / удаленная работа':
