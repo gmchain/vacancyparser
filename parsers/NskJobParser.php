@@ -154,7 +154,11 @@ class NskJobParser extends AbstractVacancyParser
                 $data = (string)$chapter;
                 $data = explode('<br/>', $data);
                 $data = trim(strip_tags($data[0]), ' ▪');
-                list(, $schedule, $jobType) = explode(',', $data);
+                if (substr_count($data, ',') > 1) {
+                    list(, $schedule, $jobType) = explode(',', $data);
+                } else {
+                    list(, $schedule) = explode(',', $data);
+                }
                 $parseNext = false;
             }
             if ($chapter->text() == 'Условия') {
