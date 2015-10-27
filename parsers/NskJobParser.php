@@ -147,17 +147,20 @@ class NskJobParser extends AbstractVacancyParser
         /** @var \simple_html_dom_node[] $chapters */
         $chapters  = $dom->find('.vacancy-description h2, .vacancy-description p');
         $parseNext = false;
-        $jobType   = '';
-        $schedule  = '';
+        $jobType   = JobTypeCodes::JOB_TYPE_UNKNOWN;
+        $schedule  = ScheduleCodes::SCHEDULE_UNKNOWN;
         foreach ($chapters as $chapter) {
             if ($parseNext) {
                 $data = (string)$chapter;
                 $data = explode('<br/>', $data);
                 $data = trim(strip_tags($data[0]), ' ▪');
-                if (substr_count($data, ',') > 1) {
-                    list(, $schedule, $jobType) = explode(',', $data);
-                } else {
-                    list(, $schedule) = explode(',', $data);
+                switch (true) {
+                    case (substr_count($data, ',') > 2) :
+                        list(, $schedule, $jobType) = explode(',', $data);
+                        break;
+                    case (substr_count($data, ',') == 1) :
+                        list(, $schedule) = explode(',', $data);
+                        break;
                 }
                 $parseNext = false;
             }
