@@ -59,15 +59,6 @@ class JobmaxRuParser extends AbstractVacancyParser
     }
 
     /**
-     * @param String $url
-     * @return mixed
-     */
-    protected function getIndexPage($url)
-    {
-        return HtmlDomParser::file_get_html($url);
-    }
-
-    /**
      * @param mixed $page
      * @return array
      */
@@ -137,7 +128,10 @@ class JobmaxRuParser extends AbstractVacancyParser
     protected function parseVacancy($url)
     {
         /** @var \simple_html_dom $dom */
-        $dom = HtmlDomParser::file_get_html($url);
+        $dom = $this->getDom($url);
+        if (!$dom) {
+            return null;
+        }
 
         $result = new ParsedVacancy();
 

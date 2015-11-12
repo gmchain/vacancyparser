@@ -10,6 +10,7 @@ namespace mchain\vacancyparser\parsers;
 
 use DateTime;
 use mchain\vacancyparser\ParsedVacancy;
+use Sunra\PhpSimple\HtmlDomParser;
 
 abstract class AbstractVacancyParser
 {
@@ -126,7 +127,11 @@ abstract class AbstractVacancyParser
             if (!$indexUrl) {
                 break;
             }
-            $page     = $this->getIndexPage($indexUrl);
+
+            $page = $this->getIndexPage($indexUrl);
+            if (!$page) {
+                break;
+            }
 
             $lastDate  = $this->getLastVacancyDate($page);
             $pageLinks = $this->getLinks($page);
@@ -168,7 +173,10 @@ abstract class AbstractVacancyParser
      * @param String $url
      * @return mixed
      */
-    abstract protected function getIndexPage($url);
+    protected function getIndexPage($url)
+    {
+        return $this->getDom($url);
+    }
 
     /**
      * @param mixed $page
@@ -192,5 +200,25 @@ abstract class AbstractVacancyParser
     {
         $vacancy = $this->parseVacancy($url);
         var_dump($vacancy);
+    }
+
+    /**
+     * @param string $url
+     * @return mixed|null
+     */
+    protected function getDom($url)
+    {
+        $cUrl = curl_init($url);
+        curl_setopt($cUrl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($cUrl, CURLOPT_CONNECTTIMEOUT, 1);
+        curl_setopt($cUrl, CURLOPT_TIMEOUT, 3);
+        $data = curl_exec($cUrl);
+        curl_close($cUrl);
+
+        if (!$data) {
+            return null;
+        }
+
+        return HtmlDomParser::str_get_html($data);
     }
 }
