@@ -168,6 +168,9 @@ class NskErabotaParser extends AbstractVacancyParser
 
         /** @var \simple_html_dom_node[] $dates */
         $dates        = $dom->find('.title-block abbr');
+        if (!$dates) {
+            return null;
+        }
         $result->date = $this->parseDate(trim($dates[0]->text()));
 
         foreach ($infoBlocks as $infoBlock) {
